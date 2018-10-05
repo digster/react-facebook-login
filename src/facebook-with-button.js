@@ -55,10 +55,10 @@ class ReactFacebookLoginWithButton extends React.Component {
   }
 
   renderOwnButton(renderProps) {
-    const { cssClass, size, icon, textButton, typeButton, buttonStyle } = this.props;
-
-    const { onClick, isDisabled } = renderProps;
-
+    const { cssClass, size, icon, textButton, typeButton, buttonStyle} = this.props;
+    
+    const { onClick, isDisabled, disableMobileRedirect, href  } = renderProps;
+    // console.log(disableMobileRedirect, href);
     const isIconString = typeof icon === 'string';
     const optionalProps = {};
     if (isDisabled && _shouldAddDisabledProp(this.props.tag)) {
@@ -72,19 +72,20 @@ class ReactFacebookLoginWithButton extends React.Component {
             href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
           />
         )}
-        <this.props.tag
-          type={typeButton}
+        <a          
           className={`${cssClass} ${size}`}
           style={ buttonStyle }
           onClick={onClick}
+          href={disableMobileRedirect ? `javascript:void(0)` : href}
           {...optionalProps}
+          target="_top"
         >
           {icon && isIconString && (
             <i className={`fa ${icon}`}></i>
           )}
           {icon && !isIconString && icon}
           {textButton}
-        </this.props.tag>
+        </a>
         {this.style()}
       </span>
     );

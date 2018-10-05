@@ -189,7 +189,7 @@ class FacebookLogin extends React.Component {
     };
 
     if (this.props.isMobile && !disableMobileRedirect) {
-      window.location.href = `https://www.facebook.com/dialog/oauth${getParamsFromObject(params)}`;
+      // window.location.href = `https://www.facebook.com/dialog/oauth${getParamsFromObject(params)}`;
     } else {
       window.FB.login(this.checkLoginState, { scope, return_scopes: returnScopes, auth_type: params.auth_type });
     }
@@ -202,7 +202,22 @@ class FacebookLogin extends React.Component {
       throw new Error('ReactFacebookLogin requires a render prop to render');
     }
 
+    const { scope, appId, onClick, returnScopes, responseType, redirectUri, disableMobileRedirect, authType, state } = this.props;
+
+    const params = {
+
+      client_id: appId,
+      redirect_uri: redirectUri,
+      state,
+      return_scopes: returnScopes,
+      scope,
+      response_type: responseType,
+      auth_type: authType,
+    };
+
     const propsForRender = {
+      href: `https://www.facebook.com/dialog/oauth${getParamsFromObject(params)}`,
+      disableMobileRedirect: disableMobileRedirect,
       onClick: this.click,
       isDisabled: !!this.props.isDisabled,
       isProcessing: this.state.isProcessing,
